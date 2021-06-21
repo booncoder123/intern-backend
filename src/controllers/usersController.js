@@ -14,6 +14,7 @@ const {
 } = require("../functions/index");
 const jwt = require("jsonwebtoken");
 
+const { uploadManyFile } = require("../utils/s3");
 // find user by id
 exports.findUserById = async (req, res) => {
   try {
@@ -131,3 +132,14 @@ exports.getSortByTag = async (req, res) => {
     res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 };
+
+
+exports.postImage = async (req, res) => {
+  //J calling
+  const { userId,files} = req;
+  console.log(userId)
+  console.log("flies",files)
+  const result = await uploadManyFile(files, userId, "userResult");
+  console.log(result);
+  res.send(result);
+}
